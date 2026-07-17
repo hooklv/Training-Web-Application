@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#e9e9e5">
+  <meta name="description" content="11 тижнів до першої двохсотки: план довгих виїздів, погода на дні тренувань, прогрес.">
+  <title>200k · план тренувань</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23dff24d'/%3E%3Ccircle cx='20' cy='42' r='9' fill='none' stroke='%23191918' stroke-width='4.5'/%3E%3Ccircle cx='44' cy='42' r='9' fill='none' stroke='%23191918' stroke-width='4.5'/%3E%3Cpath d='M20 42l8-18h9M26 24h12l6 18' fill='none' stroke='%23191918' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="logo" href="#top" aria-label="200k build — нагору">
+    <span class="logo-dots" id="logo-dots"></span>
+    <span class="logo-txt">build</span>
+  </a>
+  <nav class="nav" aria-label="Розділи">
+    <a class="pill" href="#now">Огляд</a>
+    <a class="pill" href="#progress">Прогресія</a>
+    <a class="pill" href="#weeks">Тижні</a>
+    <a class="pill" href="#base">База</a>
+  </nav>
+  <span class="pill ghost" id="today-pill"></span>
+</header>
+
+<main class="shell" id="top">
+
+  <!-- ── герой ─────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-top" data-reveal>
+      <h1>
+        <span class="hl"><i>План до</i></span>
+        <span class="hl"><i>першого <em>200-ка</em></i></span>
+      </h1>
+      <p class="hero-sub">З комфортом проїхати 200 км за день. Один довгий на тиждень, що росте, —
+        решта легко. Обсяг важливіший за інтенсивність.</p>
+      <div class="hero-chips">
+        <span class="pill">старт · пн 20.07.2026</span>
+        <span class="pill">бревет · кін. вересня — поч. жовтня</span>
+        <span class="pill">3 дні / тиждень</span>
+        <span class="pill lime">HR 120–140</span>
+      </div>
+    </div>
+
+    <div class="kpis" data-reveal>
+      <div class="kpi"><div class="kpi-num" id="kpi-goal" data-count></div><span class="kpi-tag lime">ціль, км</span></div>
+      <div class="kpi"><div class="kpi-num" id="kpi-weeks" data-count></div><span class="kpi-tag">тижнів</span></div>
+      <div class="kpi"><div class="kpi-num" id="kpi-rides" data-count></div><span class="kpi-tag">виїздів</span></div>
+      <div class="kpi"><div class="kpi-num" id="kpi-total" data-count></div><span class="kpi-tag">км за план</span></div>
+    </div>
+  </section>
+
+  <!-- ── зараз: тиждень · ціль · погода ────────────────── -->
+  <section class="band" id="now">
+    <article class="card mesh mesh-green" data-reveal style="--i:0">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+      <div class="noise"></div>
+      <div class="mesh-inner">
+        <span class="cap" id="now-cap">…</span>
+        <div class="mesh-num" id="now-num"></div>
+        <p class="mesh-sub" id="now-sub"></p>
+        <ul class="now-rides" id="now-rides"></ul>
+        <div class="ruler" aria-hidden="true"></div>
+        <p class="mesh-foot" id="now-done"></p>
+      </div>
+    </article>
+
+    <article class="card mesh mesh-orange" data-reveal style="--i:1">
+      <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+      <div class="noise"></div>
+      <div class="mesh-inner">
+        <span class="cap">до бревету</span>
+        <div class="mesh-num" id="tgt-num"></div>
+        <p class="mesh-sub" id="tgt-sub"></p>
+        <ul class="now-rides static">
+          <li>200 км за день — <b>ціль</b></li>
+        </ul>
+        <div class="ruler" aria-hidden="true"></div>
+        <p class="mesh-foot">дату прив'яжемо до реального бревету ↓</p>
+      </div>
+    </article>
+
+    <article class="card wx" id="wx" data-reveal style="--i:2">
+      <header class="wx-head">
+        <div>
+          <h3>Погода</h3>
+          <p class="wx-status" id="wx-status">завантажую…</p>
+        </div>
+        <div class="wx-loc">
+          <button class="pill" id="wx-city-btn" type="button" title="змінити місто">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 21s-6.5-5.4-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.6 12 21 12 21z"/><circle cx="12" cy="10.5" r="2.3"/></svg>
+            <span id="wx-city">Київ</span>
+          </button>
+          <button class="pill icon" id="wx-geo" type="button" title="моя локація" aria-label="Використати мою геолокацію">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg>
+          </button>
+          <button class="pill icon" id="wx-retry" type="button" title="оновити прогноз" aria-label="Оновити прогноз">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 3.5V8h-4.5"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <div class="wx-pop" id="wx-pop" hidden>
+        <form id="wx-form">
+          <input id="wx-input" type="text" placeholder="Місто, напр. Львів…" autocomplete="off">
+        </form>
+        <div class="wx-results" id="wx-results"></div>
+      </div>
+
+      <div class="wx-strip" id="wx-strip">
+        <div class="wx-day skel"></div><div class="wx-day skel"></div><div class="wx-day skel"></div>
+        <div class="wx-day skel"></div><div class="wx-day skel"></div><div class="wx-day skel"></div>
+        <div class="wx-day skel"></div><div class="wx-day skel"></div>
+      </div>
+      <p class="wx-hint">Open-Meteo · 16 днів наперед. Тижні плану, що вже в горизонті, отримують погоду прямо в картках нижче.</p>
+    </article>
+  </section>
+
+  <!-- ── сезон ─────────────────────────────────────────── -->
+  <section class="card season-card" data-reveal>
+    <header class="row-head">
+      <h2>Сезон</h2>
+      <span class="muted">20.07 — 04.10 · суботи — орієнтовні довгі · <b>77 днів</b></span>
+    </header>
+    <div class="season" id="season" aria-label="Стрічка днів сезону"></div>
+    <div class="season-marks" id="season-marks" aria-hidden="true"></div>
+  </section>
+
+  <!-- ── прогресія ─────────────────────────────────────── -->
+  <section class="card chart-card" id="progress" data-reveal>
+    <header class="row-head">
+      <div>
+        <h2>Довгий виїзд по тижнях</h2>
+        <p class="muted">росте поступово; сірі тижні — свідоме розвантаження, форма росте на відновленні</p>
+      </div>
+      <div class="legend" aria-hidden="true">
+        <span class="lg"><i style="background:#4a9e2f"></i>білд</span>
+        <span class="lg"><i style="background:#c6c6bc"></i>розвантаження</span>
+        <span class="lg"><i style="background:#e0417f"></i>бревет</span>
+      </div>
+    </header>
+    <div class="chart" id="chart"></div>
+    <div class="chart-tip" id="chart-tip" hidden></div>
+  </section>
+
+  <!-- ── тижні ─────────────────────────────────────────── -->
+  <section id="weeks">
+    <header class="sect-head" data-reveal>
+      <h2>Тижні</h2>
+      <p class="muted">кружечок праворуч — відмітити виїзд зробленим · рахується в «зроблено км»</p>
+    </header>
+    <div class="weeks-grid" id="weeks-grid"></div>
+  </section>
+
+  <!-- ── база і правила ────────────────────────────────── -->
+  <section id="base">
+    <header class="sect-head" data-reveal>
+      <h2>База і правила</h2>
+      <p class="muted">те, що робить довгі — довгими, а не героїчними</p>
+    </header>
+
+    <div class="bento">
+      <article class="card b-principle" data-reveal style="--i:0">
+        <span class="cap dark">головний принцип</span>
+        <h3>Довгий — це діагностика</h3>
+        <p>На довгому першими ламаються не ноги — за пульсовими даними вони ок. Ламаються
+          <b>контактні точки</b>. Кожен довгий — тест: що заболить першим. Записуй.</p>
+        <div class="chips">
+          <span class="pill">сідло</span><span class="pill">долоні</span>
+          <span class="pill">шия</span><span class="pill">стопи</span>
+        </div>
+      </article>
+
+      <article class="card" data-reveal style="--i:1">
+        <span class="cap dark">правило кроку вгору</span>
+        <h3>«Міг би ще»</h3>
+        <p>Нарощуєш довгий, тільки якщо попередній пройшов <b>контрольовано</b>, не героїчно.
+          Якщо ні — повторюєш ту саму дистанцію, не стрибаєш.</p>
+      </article>
+
+      <article class="card" data-reveal style="--i:2">
+        <span class="cap dark">темп довгого</span>
+        <h3>Нудно повільно</h3>
+        <p>Розмовна зона, особливо перші дві третини дистанції.
+          Обсяг важливіший за інтенсивність.</p>
+        <div class="chips"><span class="pill lime">HR 120–140</span></div>
+      </article>
+
+      <article class="card b-check" data-reveal style="--i:3">
+        <header class="row-head tight">
+          <span class="cap dark">до першої сотні</span>
+          <span class="pill deadline">дедлайн · 17.08</span>
+        </header>
+        <h3>База під цю ціль, не «колись»</h3>
+        <button class="checkrow" type="button" data-check="chamois" aria-pressed="false">
+          <span class="cbox" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg>
+          </span>
+          <span class="ctext"><b>Chamois по розміру</b>
+            <i>сидить як компресія, пад не ходить окремо від тіла — на 30 км байдуже, на 5-й годині це рани</i></span>
+        </button>
+        <button class="checkrow" type="button" data-check="spd" aria-pressed="false">
+          <span class="cbox" aria-hidden="true">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg>
+          </span>
+          <span class="ctext"><b>SPD-педалі</b>
+            <i>під асиметрію стопи й ліве коліно: за години неправильна робота стопи = біль, на довгому це вилазить</i></span>
+        </button>
+      </article>
+
+      <article class="card" data-reveal style="--i:4">
+        <header class="row-head tight">
+          <span class="cap dark">харчування</span>
+          <span class="pill lime">з тижня 5</span>
+        </header>
+        <h3>≈60 г вуглеводів / год</h3>
+        <p>До ~2,5 год (Dirty Paws, 70–85 км) гелі працюють. На 100+ км самими гелями
+          вб'єш шлунок — потрібна <b>справжня їжа</b> і рівні ~60 г/год, без піків і провалів.
+          Деталі розберемо перед першою сотнею.</p>
+      </article>
+
+      <article class="card b-open" data-reveal style="--i:5">
+        <header class="row-head tight">
+          <span class="cap dark">відкрите питання</span>
+          <span class="pill open-pill">знайти дату</span>
+        </header>
+        <h3>Реальний бревет, не «жовтень»</h3>
+        <p>Дату 200-ка прив'язуємо до бревету з календаря. Тапер (тиждень 10) рахується
+          назад від дати старту. Знайдеш дату — підженемо останні два тижні точно під неї.</p>
+      </article>
+
+      <article class="card b-read" data-reveal style="--i:6">
+        <span class="cap dark">як читати план</span>
+        <ul class="read-list">
+          <li>Числа — орієнтир, не догма. Гнуться під самопочуття.</li>
+          <li>Випало 2–3 ключові вихідні — 200 спокійно переїжджає на весну. Це план А з чесним планом Б.</li>
+          <li>Розвантажувальні тижні 4, 8, 10 — не пропускати. Форма росте на відновленні.</li>
+          <li>Середній і короткий — легкі. Два важких дні на тиждень при великому довгому не потрібні.</li>
+        </ul>
+      </article>
+
+      <article class="card b-strava" data-reveal style="--i:7">
+        <header class="row-head tight">
+          <span class="cap dark">етап 2</span>
+          <span class="pill ghost">скоро</span>
+        </header>
+        <h3>Strava — все в одному місці</h3>
+        <p>Підключимо через MCP: виїзди підтягуватимуться самі, галочки та «зроблено км»
+          стануть автоматичними. Ручні відмітки — тимчасова заміна.</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>зібрано під першу двохсотку · погода — <a href="https://open-meteo.com" rel="noopener">Open-Meteo</a></span>
+    <span class="muted">план живе в <code>js/plan.js</code> — з'явиться дата бревету, онови її там</span>
+  </footer>
+</main>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
