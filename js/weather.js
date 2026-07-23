@@ -5,7 +5,7 @@
 import { getLocation, setLocation, getWxCache, setWxCache } from './store.js';
 import { parseISO, fmtDow, fmtDay } from './plan.js';
 
-const DEFAULT_LOC = { name: 'Київ', lat: 50.4501, lon: 30.5234 };
+const DEFAULT_LOC = { name: 'Львів', lat: 49.8397, lon: 24.0297 };
 const TTL = 30 * 60 * 1000;
 
 // ── іконки (мінімальні лінійні, у стилі референсів) ─────────
