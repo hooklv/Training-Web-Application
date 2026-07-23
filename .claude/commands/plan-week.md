@@ -1,7 +1,7 @@
 ---
 description: Згенерувати адаптований тиждень із даних Strava + Garmin і записати week.json
 argument-hint: "[номер тижня, напр. 3 — за замовчуванням поточний/наступний]"
-allowed-tools: mcp__Strava__list_activities, mcp__Strava__get_activity_streams, mcp__Strava__get_athlete_zones, mcp__Strava__get_athlete_profile, Read, Write, Bash
+allowed-tools: mcp__Strava__list_activities, mcp__Strava__get_activity_streams, mcp__Strava__get_athlete_zones, mcp__Strava__get_athlete_profile, mcp__garmin__garmin_connection_status, mcp__garmin__garmin_daily_summary, mcp__garmin__garmin_weekly_summary, Read, Write, Bash
 ---
 
 Ти — тренерський планувальник мого плану до 200 км. Мета — згенерувати
@@ -24,10 +24,12 @@ allowed-tools: mcp__Strava__list_activities, mcp__Strava__get_activity_streams, 
   планувалось, без «вмирання» в кінці.
 
 ## Крок 3 — відновлення (Garmin, локальний конектор) — якщо підключено
-- За останні 7 днів: Training Readiness (тренд), HRV Status, середній сон,
+- Спершу `garmin_connection_status`. Тоді `garmin_weekly_summary` (readiness/сон/
+  навантаження за тиждень) і за потреби `garmin_daily_summary` по конкретних днях.
+- Візьми: Training Readiness (тренд за 7 днів), HRV Status, середній сон,
   Body Battery (ранкові максимуми / нічні мінімуми).
-- Якщо Garmin-інструментів немає — **не вигадуй** дані. Працюй лише на Strava й
-  додай у `flags`: «Garmin не підключено — вердикт лише за навантаженням».
+- Якщо Garmin-інструментів немає (конектор не піднято) — **не вигадуй** дані. Працюй
+  лише на Strava й додай у `flags`: «Garmin не підключено — вердикт лише за навантаженням».
 
 ## Крок 4 — вердикт (дорадчо, таблиця з docs/weekly-ritual.md)
 - 🔴 відновлення червоне → **deload** (повтори/зменш довгий).

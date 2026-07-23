@@ -24,21 +24,41 @@
 ## Одноразове налаштування Garmin (на твоїй машині)
 
 Офіційного хостованого Garmin-конектора немає (їхня dev-програма — для компаній і
-на паузі). Використовуємо неофіційний local-first конектор:
+на паузі). Використовуємо неофіційний local-first конектор
+[davidmosiah/garmin-mcp](https://github.com/davidmosiah/garmin-mcp) (npm-пакет
+`garmin-mcp-unofficial`). Усе виконується **на твоїй машині**.
 
-- [garmin-mcp-unofficial (npm)](https://www.npmjs.com/package/garmin-mcp-unofficial) — простіше для Claude Code;
-- або [davidmosiah/garmin-mcp (GitHub)](https://github.com/davidmosiah/garmin-mcp).
+**1. Авторизація (питає email/пароль/MFA локально):**
+```bash
+npx -y garmin-mcp-unofficial auth
+```
+Пароль не зберігається — лише короткоживучі токени у `~/.garmin-mcp/garmin_tokens.json`
+(права лише для тебе). MFA-код вводиш зі свого телефона. Логінься рідко — часті
+headless-логіни провокують тротлінг.
 
-Загальний порядок (точні команди — у README конектора, вони змінюються):
+**2. Перевірка:**
+```bash
+npx -y garmin-mcp-unofficial doctor
+```
 
-1. **Локальна авторизація.** Запускаєш setup/auth конектора — він питає email, пароль
-   Garmin і MFA **локально**. Зберігаються лише короткоживучі токени (напр.
-   `~/.garmin-mcp/…`), пароль не зберігається.
-2. **Додаєш у Claude Code як MCP-сервер** (у налаштуваннях MCP / `mcpServers`).
-   Після цього поряд зі Strava з'являться Garmin-інструменти (readiness, HRV, сон,
-   Body Battery, activities).
-3. **Дозволь потрібні інструменти** у `/plan-week` (див. `allowed-tools` у команді —
-   допиши туди імена Garmin-інструментів свого конектора).
+**3. Додати як MCP-сервер у локальний Claude Code** (у корені репо):
+```bash
+claude mcp add garmin -- npx -y garmin-mcp-unofficial
+```
+або вручну в конфіг MCP-клієнта:
+```json
+{
+  "mcpServers": {
+    "garmin": { "command": "npx", "args": ["-y", "garmin-mcp-unofficial"] }
+  }
+}
+```
+Після цього поряд зі Strava з'являться інструменти `garmin_connection_status`,
+`garmin_daily_summary`, `garmin_weekly_summary` та ін. (readiness, HRV, сон,
+Body Battery, activities). У `/plan-week` вони вже прописані в `allowed-tools`.
+
+> **Не додавай цей сервер у репо через `.mcp.json`** — інакше хмарна веб-сесія теж
+> намагатиметься його запустити (і зависне без авторизації). Garmin — суто локальний.
 
 **Чесні застереження:** це неофіційний доступ (сіра зона ToS Garmin), він крихкий
 (може зламатись, якщо Garmin змінить ендпоінти) і потребує локального запуску.
