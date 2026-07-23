@@ -1,0 +1,19 @@
+{
+  "example": true,
+  "generatedAt": "2026-07-22",
+  "weekNumber": 1,
+  "verdict": "hold",
+  "coachNote": "Приклад адаптованого тижня. Заходимо в план рівно, без кроку вгору: попереду Dirty Paws у суботу — тиждень тримаємо легким. Реальні цифри підтягнемо зі Strava та Garmin у наступному кроці.",
+  "rides": [
+    { "type": "long", "km": 65, "label": "Dirty Paws 65 км", "hrZone": "120–140", "note": "сб 25.07" },
+    { "type": "short", "km": 45, "label": "2× 20–25 км", "note": "пн–пт, спокійно" }
+  ],
+  "basedOn": {
+    "strava": { "lastWeekKm": 62, "longRideKm": 55, "avgHrLong": 134, "formTrend": "flat" },
+    "garmin": { "trainingReadiness": 71, "hrvStatus": "balanced", "sleepAvgH": 7.4, "bodyBatteryLow": 28 }
+  },
+  "flags": [
+    "Приклад: показники нижче — ілюстрація формату, а не реальні дані.",
+    "Відновлення в нормі, але тиждень перегонів → без кроку вгору."
+  ]
+}

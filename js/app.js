@@ -6,6 +6,7 @@ import {
 import { mountDots, countUp, dotsSVG } from './dots.js';
 import { isDone, setDone, doneKm, isChecked, setChecked } from './store.js';
 import { initWeather } from './weather.js';
+import { loadLiveWeek, applyLiveWeek } from './live.js';
 
 const TODAY = today();
 const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -249,6 +250,7 @@ function renderWeeks() {
     const card = document.createElement('article');
     card.className = `card week k-${w.kind} st-${st}`;
     card.dataset.reveal = '';
+    card.dataset.wk = w.n;
     card.style.setProperty('--i', i % 6);
 
     const head = document.createElement('header');
@@ -384,6 +386,10 @@ renderChart();
 initChecklist();
 initReveal();
 initWeather(WEEKS);
+
+// адаптований тиждень (week.json) підтягуємо після статичного рендера —
+// перший кадр миттєвий, а якщо файлу немає, нічого не змінюється
+loadLiveWeek().then(data => { if (data) applyLiveWeek(data); });
 
 let rt;
 addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(renderChart, 150); });
